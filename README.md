@@ -87,3 +87,4 @@ Tests automatically execute on:
 - Pull request to main branch
 
 CI pipeline is configured using GitHub Actions.
+CI workflow test - pushing to trigger Actions
