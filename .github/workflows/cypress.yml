@@ -36,7 +36,7 @@ jobs:
       - name: Run Cypress tests (headless)
         env:
           NODE_OPTIONS: --no-warnings
-        run: npx cypress run --browser chrome --retry 2
+        run: npx cypress run --browser chrome
 
       # Upload screenshots if any test fails
       - name: Upload screenshots (on failure)
