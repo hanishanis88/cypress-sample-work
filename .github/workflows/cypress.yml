@@ -11,27 +11,42 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout your repo
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # Setup Node (pinned to LTS 18.17.1)
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 18.17.1
+          cache: npm
 
+      # Verify Node version (debug step)
+      - name: Verify Node & npm versions
+        run: |
+          node -v
+          npm -v
+
+      # Install dependencies
       - name: Install dependencies
         run: npm ci
 
+      # Run Cypress tests headless
       - name: Run Cypress tests (headless)
-        run: npx cypress run
+        env:
+          NODE_OPTIONS: --no-warnings
+        run: npx cypress run --browser chrome --retry 2
 
-      - name: Upload screenshots (if failure)
+      # Upload screenshots if any test fails
+      - name: Upload screenshots (on failure)
         if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: cypress-screenshots
           path: cypress/screenshots
 
+      # Upload videos (always)
       - name: Upload videos
         if: always()
         uses: actions/upload-artifact@v4
